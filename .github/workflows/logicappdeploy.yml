@@ -36,6 +36,7 @@ jobs:
   stag-deployment:
     runs-on: ubuntu-latest
     environment: Staging
+    needs: dev-deployment
     env:
       Azure_Location: eastus
     steps:
@@ -68,6 +69,7 @@ jobs:
   prod-deployment:
     runs-on: ubuntu-latest
     environment: Prod
+    needs: stag-deployment
     env:
       Azure_Location: eastus
     steps:

@@ -3,13 +3,13 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "logicAppName": {
-      "value": "getaddress-test"
+      "value": "getaddress-stag"
     },
     "bingmaps_name": {
-      "value": "bingmaps-test"
+      "value": "bingmaps-stag"
     },
     "bingmaps_displayName": {
-      "value": "Test Bing Maps"
+      "value": "Staging Bing Maps"
     },
     "bingmaps_api_key": {
       "reference": {
