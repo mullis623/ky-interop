@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "value": "getaddress-test"
+    },
+    "bingmaps_name": {
+      "value": "bingmaps-test"
+    },
+    "bingmaps_displayName": {
+      "value": "Test Bing Maps"
+    },
+    "bingmaps_api_key": {
+      "reference": {
+        "keyVault": {
+            "id": "/subscriptions/076f98ce-ac85-4f4a-a88b-efece886f169/resourceGroups/iPaaSDemo-PROD/providers/Microsoft.KeyVault/vaults/ipaasdemokv"
+        },
+        "secretName": "bingmapsapikey"
+      }
+    }
+  }
+}
