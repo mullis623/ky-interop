@@ -1,88 +1,6 @@
 @description('Name of the Logic App.')
 param logicAppName string = 'ipaas-getaddress'
 
-@allowed([
-  resourceGroup().location
-  'asia'
-  'asiapacific'
-  'australia'
-  'australiacentral'
-  'australiacentral2'
-  'australiaeast'
-  'australiasoutheast'
-  'brazil'
-  'brazilsouth'
-  'brazilsoutheast'
-  'canada'
-  'canadacentral'
-  'canadaeast'
-  'centralindia'
-  'centralus'
-  'centraluseuap'
-  'centralusstage'
-  'chinaeast'
-  'chinanorth'
-  'eastasia'
-  'eastasiastage'
-  'eastus'
-  'eastus2'
-  'eastus2euap'
-  'eastus2stage'
-  'eastusstage'
-  'europe'
-  'francecentral'
-  'francesouth'
-  'germanycentral'
-  'germanynorth'
-  'germanynortheast'
-  'germanywestcentral'
-  'global'
-  'india'
-  'japan'
-  'japaneast'
-  'japanwest'
-  'jioindiawest'
-  'koreacentral'
-  'koreasouth'
-  'northcentralus'
-  'northcentralusstage'
-  'northeurope'
-  'norwayeast'
-  'norwaywest'
-  'southafricanorth'
-  'southafricawest'
-  'southcentralus'
-  'southcentralusstage'
-  'southeastasia'
-  'southeastasiastage'
-  'southindia'
-  'switzerland'
-  'switzerlandnorth'
-  'switzerlandwest'
-  'uaecentral'
-  'uaenorth'
-  'uk'
-  'uksouth'
-  'ukwest'
-  'unitedstates'
-  'usdodeast'
-  'usdodwest'
-  'usgovarizona'
-  'usgoviowa'
-  'usgovtexas'
-  'usgovvirginia'
-  'usseceast'
-  'ussecwest'
-  'west'
-  'westcentralus'
-  'westeurope'
-  'westindia'
-  'westus'
-  'westus2'
-  'westus2stage'
-  'westus3'
-  'westusstage'
-])
 @description('Location of the Logic App.')
 param logicAppLocation string = resourceGroup().location
 param bingmaps_name string = 'bingmaps'
@@ -90,7 +8,21 @@ param bingmaps_displayName string = 'iPaaS Bing Maps'
 
 @description('API Key')
 @secure()
-param bingmaps_api_key string = null
+param bingmaps_api_key string
+
+resource bingmaps_name_resource 'Microsoft.Web/connections@2016-06-01' = {
+  location: logicAppLocation
+  name: bingmaps_name
+  properties: {
+    api: {
+      id: '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Web/locations/${logicAppLocation}/managedApis/bingmaps'
+    }
+    displayName: bingmaps_displayName
+    parameterValues: {
+      api_key: bingmaps_api_key
+    }
+  }
+}
 
 resource logicAppName_resource 'Microsoft.Logic/workflows@2016-06-01' = {
   name: logicAppName
@@ -461,20 +393,6 @@ resource logicAppName_resource 'Microsoft.Logic/workflows@2016-06-01' = {
           }
         }
       }
-    }
-  }
-}
-
-resource bingmaps_name_resource 'Microsoft.Web/connections@2016-06-01' = {
-  location: logicAppLocation
-  name: bingmaps_name
-  properties: {
-    api: {
-      id: '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Web/locations/${logicAppLocation}/managedApis/bingmaps'
-    }
-    displayName: bingmaps_displayName
-    parameterValues: {
-      api_key: bingmaps_api_key
     }
   }
 }
