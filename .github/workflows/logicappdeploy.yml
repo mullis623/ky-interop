@@ -33,68 +33,68 @@ jobs:
         template: Infrastructure/ipaas-getaddress.bicep
         parameters: "Infrastructure/parameters/${{ secrets.PARAMETERS_FILENAME }}"
   
-  # stag-deployment:
-  #   runs-on: ubuntu-latest
-  #   environment: Staging
-  #   needs: dev-deployment
-  #   env:
-  #     Azure_Location: eastus
-  #   steps:
+  stag-deployment:
+    runs-on: ubuntu-latest
+    environment: Staging
+    needs: dev-deployment
+    env:
+      Azure_Location: eastus
+    steps:
 
-  #     # Checkout code
-  #   - uses: actions/checkout@main
+      # Checkout code
+    - uses: actions/checkout@main
 
-  #     # Log into Azure
-  #   - uses: azure/login@v1
-  #     with:
-  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-  #   - name: Create Resource Group
-  #     uses: azure/CLI@v1
-  #     with:
-  #       azcliversion: 2.33.1
-  #       inlineScript: |
-  #         az account show
-  #         az group create -g ${{ secrets.AZURE_RG }} -l ${{ env.Azure_Location }}
+    - name: Create Resource Group
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.33.1
+        inlineScript: |
+          az account show
+          az group create -g ${{ secrets.AZURE_RG }} -l ${{ env.Azure_Location }}
 
-  #     # Deploy ARM template
-  #   - name: Run ARM deploy
-  #     uses: azure/arm-deploy@v1
-  #     with:
-  #       subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-  #       resourceGroupName: ${{ secrets.AZURE_RG }}
-  #       template: Infrastructure/ipaas-getaddress.bicep
-  #       parameters: "Infrastructure/parameters/${{ secrets.PARAMETERS_FILENAME }}"
+      # Deploy ARM template
+    - name: Run ARM deploy
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: Infrastructure/ipaas-getaddress.bicep
+        parameters: "Infrastructure/parameters/${{ secrets.PARAMETERS_FILENAME }}"
 
-  # prod-deployment:
-  #   runs-on: ubuntu-latest
-  #   environment: Prod
-  #   needs: stag-deployment
-  #   env:
-  #     Azure_Location: eastus
-  #   steps:
+  prod-deployment:
+    runs-on: ubuntu-latest
+    environment: Prod
+    needs: stag-deployment
+    env:
+      Azure_Location: eastus
+    steps:
 
-  #     # Checkout code
-  #   - uses: actions/checkout@main
+      # Checkout code
+    - uses: actions/checkout@main
 
-  #     # Log into Azure
-  #   - uses: azure/login@v1
-  #     with:
-  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-  #   - name: Create Resource Group
-  #     uses: azure/CLI@v1
-  #     with:
-  #       azcliversion: 2.33.1
-  #       inlineScript: |
-  #         az account show
-  #         az group create -g ${{ secrets.AZURE_RG }} -l ${{ env.Azure_Location }}
+    - name: Create Resource Group
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.33.1
+        inlineScript: |
+          az account show
+          az group create -g ${{ secrets.AZURE_RG }} -l ${{ env.Azure_Location }}
 
-  #     # Deploy ARM template
-  #   - name: Run ARM deploy
-  #     uses: azure/arm-deploy@v1
-  #     with:
-  #       subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-  #       resourceGroupName: ${{ secrets.AZURE_RG }}
-  #       template: Infrastructure/ipaas-getaddress.bicep
-  #       parameters: "Infrastructure/parameters/${{ secrets.PARAMETERS_FILENAME }}"
+      # Deploy ARM template
+    - name: Run ARM deploy
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: Infrastructure/ipaas-getaddress.bicep
+        parameters: "Infrastructure/parameters/${{ secrets.PARAMETERS_FILENAME }}"
